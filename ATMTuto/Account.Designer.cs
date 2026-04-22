@@ -1,4 +1,4 @@
-﻿namespace ATMTuto
+namespace ATMTuto
 {
     partial class Account
     {
@@ -352,6 +352,7 @@
             this.AccNumTb.Name = "AccNumTb";
             this.AccNumTb.Size = new System.Drawing.Size(386, 62);
             this.AccNumTb.TabIndex = 29;
+            this.AccNumTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AccNumTb_KeyPress);
             // 
             // AccNameTb
             // 
@@ -384,6 +385,8 @@
             this.PinTb.Name = "PinTb";
             this.PinTb.Size = new System.Drawing.Size(386, 62);
             this.PinTb.TabIndex = 33;
+            this.PinTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PinTb_KeyPress);
+            this.PinTb.TextChanged += new System.EventHandler(this.PinTb_TextChanged);
             // 
             // OccupationTb
             // 

@@ -1,4 +1,4 @@
-﻿namespace ATMTuto
+﻿﻿﻿namespace ATMTuto
 {
     partial class Withdraw
     {
@@ -42,6 +42,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.balancelbl = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,9 +50,9 @@
             // 
             this.guna2Panel2.BackColor = System.Drawing.Color.DarkCyan;
             this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.guna2Panel2.Location = new System.Drawing.Point(0, 769);
+            this.guna2Panel2.Location = new System.Drawing.Point(0, 777);
             this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(1092, 23);
+            this.guna2Panel2.Size = new System.Drawing.Size(1280, 23);
             this.guna2Panel2.TabIndex = 25;
             // 
             // guna2Panel1
@@ -63,7 +64,7 @@
             this.guna2Panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.guna2Panel1.Location = new System.Drawing.Point(0, 0);
             this.guna2Panel1.Name = "guna2Panel1";
-            this.guna2Panel1.Size = new System.Drawing.Size(1092, 211);
+            this.guna2Panel1.Size = new System.Drawing.Size(1280, 211);
             this.guna2Panel1.TabIndex = 24;
             // 
             // label9
@@ -71,7 +72,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(301, 129);
+            this.label9.Location = new System.Drawing.Point(395, 129);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(490, 46);
             this.label9.TabIndex = 6;
@@ -82,7 +83,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(301, 35);
+            this.label1.Location = new System.Drawing.Point(395, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(490, 94);
             this.label1.TabIndex = 5;
@@ -93,7 +94,7 @@
             this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2ControlBox1.FillColor = System.Drawing.Color.DarkCyan;
             this.guna2ControlBox1.IconColor = System.Drawing.Color.White;
-            this.guna2ControlBox1.Location = new System.Drawing.Point(1016, 0);
+            this.guna2ControlBox1.Location = new System.Drawing.Point(1204, 0);
             this.guna2ControlBox1.Name = "guna2ControlBox1";
             this.guna2ControlBox1.Size = new System.Drawing.Size(76, 69);
             this.guna2ControlBox1.TabIndex = 4;
@@ -103,7 +104,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label8.Location = new System.Drawing.Point(553, 703);
+            this.label8.Location = new System.Drawing.Point(647, 703);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(201, 41);
             this.label8.TabIndex = 32;
@@ -123,7 +124,7 @@
             this.guna2Button1.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
             this.guna2Button1.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
-            this.guna2Button1.Location = new System.Drawing.Point(506, 633);
+            this.guna2Button1.Location = new System.Drawing.Point(600, 633);
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(301, 67);
             this.guna2Button1.TabIndex = 31;
@@ -133,28 +134,29 @@
             // WdAmtTb
             // 
             this.WdAmtTb.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.WdAmtTb.Location = new System.Drawing.Point(478, 531);
+            this.WdAmtTb.Location = new System.Drawing.Point(572, 531);
             this.WdAmtTb.Name = "WdAmtTb";
             this.WdAmtTb.Size = new System.Drawing.Size(386, 62);
             this.WdAmtTb.TabIndex = 30;
+            this.WdAmtTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.WdAmtTb_KeyPress);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label6.Location = new System.Drawing.Point(230, 587);
+            this.label6.Location = new System.Drawing.Point(324, 587);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(170, 46);
+            this.label6.Size = new System.Drawing.Size(168, 46);
             this.label6.TabIndex = 29;
-            this.label6.Text = "Account:";
+            this.label6.Text = "Amount:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label4.Location = new System.Drawing.Point(248, 525);
+            this.label4.Location = new System.Drawing.Point(342, 525);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(171, 62);
             this.label4.TabIndex = 28;
@@ -165,7 +167,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label3.Location = new System.Drawing.Point(231, 326);
+            this.label3.Location = new System.Drawing.Point(325, 432);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(633, 46);
             this.label3.TabIndex = 27;
@@ -176,7 +178,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label2.Location = new System.Drawing.Point(298, 264);
+            this.label2.Location = new System.Drawing.Point(392, 370);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(459, 62);
             this.label2.TabIndex = 26;
@@ -187,7 +189,7 @@
             this.balancelbl.AutoSize = true;
             this.balancelbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.balancelbl.ForeColor = System.Drawing.Color.DarkCyan;
-            this.balancelbl.Location = new System.Drawing.Point(629, 419);
+            this.balancelbl.Location = new System.Drawing.Point(761, 250);
             this.balancelbl.Name = "balancelbl";
             this.balancelbl.Size = new System.Drawing.Size(321, 46);
             this.balancelbl.TabIndex = 34;
@@ -198,17 +200,29 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label7.Location = new System.Drawing.Point(298, 406);
+            this.label7.Location = new System.Drawing.Point(392, 234);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(363, 62);
             this.label7.TabIndex = 33;
             this.label7.Text = "当前可用余额：";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.ForeColor = System.Drawing.Color.DarkCyan;
+            this.label5.Location = new System.Drawing.Point(397, 296);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(321, 46);
+            this.label5.TabIndex = 35;
+            this.label5.Text = "Available Balance";
+            // 
             // Withdraw
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1092, 792);
+            this.ClientSize = new System.Drawing.Size(1280, 800);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.balancelbl);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
@@ -248,5 +262,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label balancelbl;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
     }
 }

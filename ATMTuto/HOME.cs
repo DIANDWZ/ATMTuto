@@ -20,15 +20,13 @@ namespace ATMTuto
         private void label8_Click(object sender, EventArgs e)
         {
             Login log = new Login();
-            log.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, log);
         }
 
         private void balanceBtn_Click(object sender, EventArgs e)
         {
             Balance bal = new Balance();
-            this.Hide();
-            bal.Show();
+            FormTransitionHelper.SwitchForm(this, bal);
         }
 
         public static String AccNumber;
@@ -42,36 +40,37 @@ namespace ATMTuto
         private void guna2Button1_Click(object sender, EventArgs e)
         {
             Deposit depo = new Deposit();
-            depo.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, depo);
         }
 
         private void guna2Button5_Click(object sender, EventArgs e)
         {
             ChangePin pin = new ChangePin();
-            pin.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, pin);
         }
 
         private void guna2Button3_Click(object sender, EventArgs e)
         {
             Withdraw wd = new Withdraw();
-            wd.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, wd);
         }
 
         private void guna2Button2_Click(object sender, EventArgs e)
         {
             Fastcash fastcash = new Fastcash();
-            fastcash.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, fastcash);
         }
 
         private void guna2Button4_Click(object sender, EventArgs e)
         {
             Inquiry inquiry = new Inquiry();
-            inquiry.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, inquiry);
+        }
+
+        private void TransferBtn_Click(object sender, EventArgs e)
+        {
+            Transfer transfer = new Transfer();
+            FormTransitionHelper.SwitchForm(this, transfer);
         }
     }
 }

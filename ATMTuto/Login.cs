@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,8 +24,7 @@ Integrated Security=True;Connect Timeout=30");
         private void label8_Click(object sender, EventArgs e)
         {
             Account acc = new Account();
-            acc.Show();
-            this.Hide();
+            FormTransitionHelper.SwitchForm(this, acc);
         }
 
         public static String AccNumber;
@@ -40,14 +39,48 @@ Integrated Security=True;Connect Timeout=30");
             {
                 AccNumber = AccNumTb.Text;
                 HOME hOME = new HOME();
-                hOME.Show();
-                this.Hide();
+                FormTransitionHelper.SwitchForm(this, hOME);
             }
             else
             {
                 MessageBox.Show("您输入用户名或密码错误，请重新输入！");
             }
             Con.Close();
+        }
+
+        private void AccNumTb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 只允许输入自然数和英文字母大小写
+            if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void PinTb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 只允许输入自然数和英文字母大小写
+            if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void PinTb_TextChanged(object sender, EventArgs e)
+        {
+            // 限制PIN长度为6位
+            if (PinTb.Text.Length > 6)
+            {
+                PinTb.Text = PinTb.Text.Substring(0, 6);
+                PinTb.SelectionStart = PinTb.Text.Length;
+                MessageBox.Show("PIN长度不能超过6位！");
+            }
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+            AdminLogin adminlogin = new AdminLogin();
+            FormTransitionHelper.SwitchForm(this, adminlogin);
         }
     }
 }

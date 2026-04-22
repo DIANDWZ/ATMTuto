@@ -34,8 +34,7 @@ namespace ATMTuto
                 Myprogress.Value = 0;
                 timer1.Stop();
                 Login log = new Login();
-                log.Show();
-                this.Hide();
+                FormTransitionHelper.SwitchForm(this, log);
             }
         }
     }

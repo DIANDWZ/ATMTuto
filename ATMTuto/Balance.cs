@@ -28,7 +28,7 @@ Integrated Security=True;Connect Timeout=30");
             SqlDataAdapter sda = new SqlDataAdapter("select Balance from AccountTbl where AccNum = '"+AccNumLbl.Text+"'",Con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
-            BalanceLbl.Text = "¥ " + dt.Rows[0][0].ToString();
+            BalanceLbl.Text = "￥" + dt.Rows[0][0].ToString();
             Con.Close();
         }
 
@@ -42,8 +42,7 @@ Integrated Security=True;Connect Timeout=30");
         private void backlbl_Click(object sender, EventArgs e)
         {
             HOME home = new HOME();
-            this.Hide();
-            home.Show();
+            FormTransitionHelper.SwitchForm(this, home);
         }
     }
 }

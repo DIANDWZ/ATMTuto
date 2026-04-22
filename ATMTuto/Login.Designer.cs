@@ -1,4 +1,4 @@
-﻿namespace ATMTuto
+﻿﻿﻿namespace ATMTuto
 {
     partial class Login
     {
@@ -45,6 +45,7 @@
             this.LoginBtn = new Guna.UI2.WinForms.Guna2Button();
             this.label8 = new System.Windows.Forms.Label();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.label10 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -58,7 +59,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1007, 189);
+            this.panel1.Size = new System.Drawing.Size(1280, 189);
             this.panel1.TabIndex = 0;
             // 
             // label9
@@ -66,7 +67,7 @@
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(266, 119);
+            this.label9.Location = new System.Drawing.Point(395, 119);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(490, 46);
             this.label9.TabIndex = 4;
@@ -77,7 +78,7 @@
             this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2ControlBox1.FillColor = System.Drawing.Color.DarkCyan;
             this.guna2ControlBox1.IconColor = System.Drawing.Color.White;
-            this.guna2ControlBox1.Location = new System.Drawing.Point(931, 0);
+            this.guna2ControlBox1.Location = new System.Drawing.Point(1204, 0);
             this.guna2ControlBox1.Name = "guna2ControlBox1";
             this.guna2ControlBox1.Size = new System.Drawing.Size(76, 69);
             this.guna2ControlBox1.TabIndex = 2;
@@ -87,7 +88,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("微软雅黑", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(266, 25);
+            this.label1.Location = new System.Drawing.Point(395, 25);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(490, 94);
             this.label1.TabIndex = 1;
@@ -96,7 +97,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(12, 432);
+            this.pictureBox1.Location = new System.Drawing.Point(162, 389);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(173, 180);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -108,7 +109,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label2.Location = new System.Drawing.Point(261, 222);
+            this.label2.Location = new System.Drawing.Point(390, 222);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(507, 62);
             this.label2.TabIndex = 3;
@@ -119,7 +120,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label3.Location = new System.Drawing.Point(165, 284);
+            this.label3.Location = new System.Drawing.Point(294, 284);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(710, 46);
             this.label3.TabIndex = 4;
@@ -130,29 +131,29 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label4.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label4.Location = new System.Drawing.Point(259, 432);
+            this.label4.Location = new System.Drawing.Point(432, 389);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(123, 62);
+            this.label4.Size = new System.Drawing.Size(171, 62);
             this.label4.TabIndex = 5;
-            this.label4.Text = "账号";
+            this.label4.Text = "账号：";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label5.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label5.Location = new System.Drawing.Point(259, 550);
+            this.label5.Location = new System.Drawing.Point(432, 507);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(123, 62);
+            this.label5.Size = new System.Drawing.Size(171, 62);
             this.label5.TabIndex = 6;
-            this.label5.Text = "密码";
+            this.label5.Text = "密码：";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label6.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label6.Location = new System.Drawing.Point(186, 494);
+            this.label6.Location = new System.Drawing.Point(359, 451);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(314, 46);
             this.label6.TabIndex = 7;
@@ -163,7 +164,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label7.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label7.Location = new System.Drawing.Point(228, 612);
+            this.label7.Location = new System.Drawing.Point(401, 569);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(183, 46);
             this.label7.TabIndex = 8;
@@ -172,19 +173,22 @@
             // AccNumTb
             // 
             this.AccNumTb.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AccNumTb.Location = new System.Drawing.Point(489, 432);
+            this.AccNumTb.Location = new System.Drawing.Point(662, 389);
             this.AccNumTb.Name = "AccNumTb";
             this.AccNumTb.Size = new System.Drawing.Size(386, 62);
             this.AccNumTb.TabIndex = 9;
+            this.AccNumTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AccNumTb_KeyPress);
             // 
             // PinTb
             // 
             this.PinTb.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PinTb.Location = new System.Drawing.Point(489, 556);
+            this.PinTb.Location = new System.Drawing.Point(662, 513);
             this.PinTb.Name = "PinTb";
             this.PinTb.PasswordChar = '*';
             this.PinTb.Size = new System.Drawing.Size(386, 62);
             this.PinTb.TabIndex = 10;
+            this.PinTb.TextChanged += new System.EventHandler(this.PinTb_TextChanged);
+            this.PinTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PinTb_KeyPress);
             // 
             // LoginBtn
             // 
@@ -199,7 +203,7 @@
             this.LoginBtn.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.LoginBtn.ForeColor = System.Drawing.Color.White;
             this.LoginBtn.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
-            this.LoginBtn.Location = new System.Drawing.Point(549, 637);
+            this.LoginBtn.Location = new System.Drawing.Point(678, 637);
             this.LoginBtn.Name = "LoginBtn";
             this.LoginBtn.Size = new System.Drawing.Size(244, 67);
             this.LoginBtn.TabIndex = 13;
@@ -211,7 +215,7 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label8.Location = new System.Drawing.Point(549, 707);
+            this.label8.Location = new System.Drawing.Point(678, 707);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(246, 41);
             this.label8.TabIndex = 14;
@@ -222,16 +226,29 @@
             // 
             this.guna2Panel2.BackColor = System.Drawing.Color.DarkCyan;
             this.guna2Panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.guna2Panel2.Location = new System.Drawing.Point(0, 776);
+            this.guna2Panel2.Location = new System.Drawing.Point(0, 777);
             this.guna2Panel2.Name = "guna2Panel2";
-            this.guna2Panel2.Size = new System.Drawing.Size(1007, 23);
+            this.guna2Panel2.Size = new System.Drawing.Size(1280, 23);
             this.guna2Panel2.TabIndex = 16;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.ForeColor = System.Drawing.Color.DarkCyan;
+            this.label10.Location = new System.Drawing.Point(12, 733);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(415, 41);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "管理员登录<Admin login>";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1007, 799);
+            this.ClientSize = new System.Drawing.Size(1280, 800);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.guna2Panel2);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.LoginBtn);
@@ -275,5 +292,6 @@
         private Guna.UI2.WinForms.Guna2ControlBox guna2ControlBox1;
         private System.Windows.Forms.Label label9;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
+        private System.Windows.Forms.Label label10;
     }
 }
