@@ -1,4 +1,4 @@
-﻿﻿﻿namespace ATMTuto
+﻿﻿﻿﻿﻿namespace ATMTuto
 {
     partial class Deposit
     {
@@ -40,6 +40,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.DepoBtn = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
+            this.BalanceLbl = new System.Windows.Forms.Label();
+            this.DailyLimitLbl = new System.Windows.Forms.Label();
+            this.SingleLimitLbl = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -145,12 +148,12 @@
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label8.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label8.Location = new System.Drawing.Point(658, 660);
+            this.label8.Location = new System.Drawing.Point(658, 691);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(201, 41);
             this.label8.TabIndex = 22;
             this.label8.Text = "返回<Back>";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // DepoBtn
             // 
@@ -165,7 +168,7 @@
             this.DepoBtn.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.DepoBtn.ForeColor = System.Drawing.Color.White;
             this.DepoBtn.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
-            this.DepoBtn.Location = new System.Drawing.Point(622, 590);
+            this.DepoBtn.Location = new System.Drawing.Point(622, 621);
             this.DepoBtn.Name = "DepoBtn";
             this.DepoBtn.Size = new System.Drawing.Size(275, 67);
             this.DepoBtn.TabIndex = 21;
@@ -181,11 +184,47 @@
             this.guna2Panel2.Size = new System.Drawing.Size(1280, 23);
             this.guna2Panel2.TabIndex = 23;
             // 
+            // BalanceLbl
+            // 
+            this.BalanceLbl.AutoSize = true;
+            this.BalanceLbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BalanceLbl.ForeColor = System.Drawing.Color.Green;
+            this.BalanceLbl.Location = new System.Drawing.Point(622, 350);
+            this.BalanceLbl.Name = "BalanceLbl";
+            this.BalanceLbl.Size = new System.Drawing.Size(150, 47);
+            this.BalanceLbl.TabIndex = 24;
+            this.BalanceLbl.Text = "余额：0";
+            // 
+            // DailyLimitLbl
+            // 
+            this.DailyLimitLbl.AutoSize = true;
+            this.DailyLimitLbl.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.DailyLimitLbl.ForeColor = System.Drawing.Color.DarkCyan;
+            this.DailyLimitLbl.Location = new System.Drawing.Point(12, 221);
+            this.DailyLimitLbl.Name = "DailyLimitLbl";
+            this.DailyLimitLbl.Size = new System.Drawing.Size(283, 36);
+            this.DailyLimitLbl.TabIndex = 25;
+            this.DailyLimitLbl.Text = "今日剩余存款限额：0";
+            // 
+            // SingleLimitLbl
+            // 
+            this.SingleLimitLbl.AutoSize = true;
+            this.SingleLimitLbl.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SingleLimitLbl.ForeColor = System.Drawing.Color.DarkCyan;
+            this.SingleLimitLbl.Location = new System.Drawing.Point(12, 261);
+            this.SingleLimitLbl.Name = "SingleLimitLbl";
+            this.SingleLimitLbl.Size = new System.Drawing.Size(227, 36);
+            this.SingleLimitLbl.TabIndex = 26;
+            this.SingleLimitLbl.Text = "单次存款限额：0";
+            // 
             // Deposit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 800);
+            this.Controls.Add(this.SingleLimitLbl);
+            this.Controls.Add(this.DailyLimitLbl);
+            this.Controls.Add(this.BalanceLbl);
             this.Controls.Add(this.guna2Panel2);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.DepoBtn);
@@ -221,5 +260,8 @@
         private System.Windows.Forms.Label label8;
         private Guna.UI2.WinForms.Guna2Button DepoBtn;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
+        private System.Windows.Forms.Label BalanceLbl;
+        private System.Windows.Forms.Label DailyLimitLbl;
+        private System.Windows.Forms.Label SingleLimitLbl;
     }
 }

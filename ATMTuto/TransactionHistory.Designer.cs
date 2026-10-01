@@ -57,7 +57,7 @@ namespace ATMTuto
             this.label21.Size = new System.Drawing.Size(201, 41);
             this.label21.TabIndex = 42;
             this.label21.Text = "返回<Back>";
-            this.label21.Click += new System.EventHandler(this.label8_Click);
+            this.label21.Click += new System.EventHandler(this.Label8_Click);
             // 
             // guna2Panel2
             // 
@@ -224,7 +224,7 @@ namespace ATMTuto
             this.guna2Button1.Size = new System.Drawing.Size(100, 40);
             this.guna2Button1.TabIndex = 48;
             this.guna2Button1.Text = "查询";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.guna2Button1.Click += new System.EventHandler(this.Guna2Button1_Click);
             // 
             // TransactionHistory
             // 

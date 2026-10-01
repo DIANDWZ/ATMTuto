@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,26 +23,46 @@ AttachDbFilename=C:\Users\24097\OneDrive\Documents\ATMDb.mdf;
 Integrated Security=True;Connect Timeout=30");
         string Acc = Login.AccNumber;
 
-        private void populate()
+        private void Populate()
         {
             Con.Open();
-            string query = "select * from TransactionTbl where AccNum = '" + Acc + "'";
+            string query = "select * from TransactionTbl where AccNum = @Acc";
             SqlDataAdapter sda = new SqlDataAdapter(query, Con);
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-            var ds = new DataSet();
-            sda.Fill(ds);
-            transactionDGV.DataSource = ds.Tables[0];
+            sda.SelectCommand.Parameters.AddWithValue("@Acc", Acc);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            
+            DataTable newDt = new DataTable();
+            newDt.Columns.Add("Tid", typeof(int));
+            newDt.Columns.Add("AccNum", typeof(string));
+            newDt.Columns.Add("Type", typeof(string));
+            newDt.Columns.Add("Amount", typeof(string));
+            newDt.Columns.Add("TDate", typeof(string));
+            
+            foreach (DataRow row in dt.Rows)
+            {
+                int amount = AESHelper.DecryptAmount(row["Amount"].ToString());
+                newDt.Rows.Add(
+                    row["Tid"],
+                    row["AccNum"],
+                    row["Type"],
+                    amount,
+                    row["TDate"]
+                );
+            }
+            
+            transactionDGV.DataSource = newDt;
             Con.Close();
         }
 
         private void Inquiry_Load(object sender, EventArgs e)
         {
-            populate();
+            Populate();
             transactionDGV.Columns["Tid"].HeaderText = "业务流水号";
             transactionDGV.Columns["AccNum"].HeaderText = "账号";
             transactionDGV.Columns["Type"].HeaderText = "业务类型";
             transactionDGV.Columns["Amount"].HeaderText = "交易金额";
-            transactionDGV.Columns["Tdate"].HeaderText = "交易时间";
+            transactionDGV.Columns["TDate"].HeaderText = "交易时间";
         }
 
         private void label21_Click(object sender, EventArgs e)
@@ -94,18 +114,20 @@ Integrated Security=True;Connect Timeout=30");
             yPos += 20;
 
             Con.Open();
-            string query = "select Type, Amount, TDate from TransactionTbl where AccNum = '" + Acc + "' order by TDate desc";
+            string query = "select Type, Amount, TDate from TransactionTbl where AccNum = @Acc order by TDate desc";
             SqlCommand cmd = new SqlCommand(query, Con);
+            cmd.Parameters.AddWithValue("@Acc", Acc);
             SqlDataReader reader = cmd.ExecuteReader();
 
             int count = 0;
             while (reader.Read() && count < 10)
             {
                 string type = reader["Type"].ToString();
-                string amount = reader["Amount"].ToString();
+                string encryptedAmount = reader["Amount"].ToString();
+                int amount = AESHelper.DecryptAmount(encryptedAmount);
                 string date = Convert.ToDateTime(reader["TDate"]).ToString("yyyy-MM-dd HH:mm");
 
-                g.DrawString(type.PadRight(16) + amount.PadLeft(10) + "     " + date, smallFont, Brushes.Black, new PointF(leftMargin, yPos));
+                g.DrawString(type.PadRight(16) + amount.ToString().PadLeft(10) + "     " + date, smallFont, Brushes.Black, new PointF(leftMargin, yPos));
                 yPos += 20;
                 count++;
             }

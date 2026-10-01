@@ -32,6 +32,9 @@ namespace ATMTuto
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.BalanceLbl = new System.Windows.Forms.Label();
+            this.DailyLimitLbl = new System.Windows.Forms.Label();
+            this.SingleLimitLbl = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -170,7 +173,7 @@ namespace ATMTuto
             this.label8.Size = new System.Drawing.Size(201, 41);
             this.label8.TabIndex = 22;
             this.label8.Text = "返回<Back>";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // guna2Panel2
             // 
@@ -203,11 +206,47 @@ namespace ATMTuto
             this.label7.TabIndex = 25;
             this.label7.Text = "AccNum";
             // 
+            // BalanceLbl
+            // 
+            this.BalanceLbl.AutoSize = true;
+            this.BalanceLbl.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.BalanceLbl.ForeColor = System.Drawing.Color.Green;
+            this.BalanceLbl.Location = new System.Drawing.Point(553, 329);
+            this.BalanceLbl.Name = "BalanceLbl";
+            this.BalanceLbl.Size = new System.Drawing.Size(150, 47);
+            this.BalanceLbl.TabIndex = 26;
+            this.BalanceLbl.Text = "余额：0";
+            // 
+            // DailyLimitLbl
+            // 
+            this.DailyLimitLbl.AutoSize = true;
+            this.DailyLimitLbl.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.DailyLimitLbl.ForeColor = System.Drawing.Color.DarkCyan;
+            this.DailyLimitLbl.Location = new System.Drawing.Point(11, 683);
+            this.DailyLimitLbl.Name = "DailyLimitLbl";
+            this.DailyLimitLbl.Size = new System.Drawing.Size(283, 36);
+            this.DailyLimitLbl.TabIndex = 27;
+            this.DailyLimitLbl.Text = "今日剩余转账限额：0";
+            // 
+            // SingleLimitLbl
+            // 
+            this.SingleLimitLbl.AutoSize = true;
+            this.SingleLimitLbl.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SingleLimitLbl.ForeColor = System.Drawing.Color.DarkCyan;
+            this.SingleLimitLbl.Location = new System.Drawing.Point(11, 723);
+            this.SingleLimitLbl.Name = "SingleLimitLbl";
+            this.SingleLimitLbl.Size = new System.Drawing.Size(227, 36);
+            this.SingleLimitLbl.TabIndex = 28;
+            this.SingleLimitLbl.Text = "单次转账限额：0";
+            // 
             // Transfer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 800);
+            this.Controls.Add(this.SingleLimitLbl);
+            this.Controls.Add(this.DailyLimitLbl);
+            this.Controls.Add(this.BalanceLbl);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.guna2Panel2);
@@ -249,5 +288,8 @@ namespace ATMTuto
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label BalanceLbl;
+        private System.Windows.Forms.Label DailyLimitLbl;
+        private System.Windows.Forms.Label SingleLimitLbl;
     }
 }

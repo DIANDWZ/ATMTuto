@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,10 +25,13 @@ Integrated Security=True;Connect Timeout=30");
         private void getBalance()
         {
             Con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter("select Balance from AccountTbl where AccNum = '"+AccNumLbl.Text+"'",Con);
+            SqlDataAdapter sda = new SqlDataAdapter("select Balance from AccountTbl where AccNum = @AccNum", Con);
+            sda.SelectCommand.Parameters.AddWithValue("@AccNum", AccNumLbl.Text);
             DataTable dt = new DataTable();
             sda.Fill(dt);
-            BalanceLbl.Text = "￥" + dt.Rows[0][0].ToString();
+            string encryptedBalance = dt.Rows[0][0].ToString();
+            int balance = AESHelper.DecryptAmount(encryptedBalance);
+            BalanceLbl.Text = "￥" + balance;
             Con.Close();
         }
 
@@ -36,7 +39,6 @@ Integrated Security=True;Connect Timeout=30");
         {
             AccNumLbl.Text = HOME.AccNumber;
             getBalance();
-
         }
 
         private void backlbl_Click(object sender, EventArgs e)

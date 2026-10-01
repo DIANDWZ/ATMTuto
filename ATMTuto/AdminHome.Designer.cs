@@ -36,6 +36,7 @@ namespace ATMTuto
             this.guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             this.guna2Button2 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
             this.label8 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
@@ -97,7 +98,7 @@ namespace ATMTuto
             this.guna2Button1.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.guna2Button1.ForeColor = System.Drawing.Color.White;
             this.guna2Button1.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
-            this.guna2Button1.Location = new System.Drawing.Point(503, 418);
+            this.guna2Button1.Location = new System.Drawing.Point(766, 315);
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(272, 93);
             this.guna2Button1.TabIndex = 14;
@@ -125,7 +126,7 @@ namespace ATMTuto
             this.guna2Button2.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.guna2Button2.ForeColor = System.Drawing.Color.White;
             this.guna2Button2.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
-            this.guna2Button2.Location = new System.Drawing.Point(115, 418);
+            this.guna2Button2.Location = new System.Drawing.Point(253, 315);
             this.guna2Button2.Name = "guna2Button2";
             this.guna2Button2.Size = new System.Drawing.Size(272, 93);
             this.guna2Button2.TabIndex = 16;
@@ -144,12 +145,31 @@ namespace ATMTuto
             this.guna2Button3.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.guna2Button3.ForeColor = System.Drawing.Color.White;
             this.guna2Button3.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
-            this.guna2Button3.Location = new System.Drawing.Point(888, 418);
+            this.guna2Button3.Location = new System.Drawing.Point(766, 509);
             this.guna2Button3.Name = "guna2Button3";
             this.guna2Button3.Size = new System.Drawing.Size(272, 93);
             this.guna2Button3.TabIndex = 17;
             this.guna2Button3.Text = "交易记录<Transaction History>";
             this.guna2Button3.Click += new System.EventHandler(this.guna2Button3_Click);
+            // 
+            // guna2Button4
+            // 
+            this.guna2Button4.BorderColor = System.Drawing.Color.Transparent;
+            this.guna2Button4.BorderThickness = 1;
+            this.guna2Button4.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button4.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button4.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button4.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button4.FillColor = System.Drawing.Color.DarkCyan;
+            this.guna2Button4.Font = new System.Drawing.Font("微软雅黑", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.guna2Button4.ForeColor = System.Drawing.Color.White;
+            this.guna2Button4.HoverState.BorderColor = System.Drawing.Color.DarkCyan;
+            this.guna2Button4.Location = new System.Drawing.Point(253, 509);
+            this.guna2Button4.Name = "guna2Button4";
+            this.guna2Button4.Size = new System.Drawing.Size(272, 93);
+            this.guna2Button4.TabIndex = 18;
+            this.guna2Button4.Text = "异常日志<Anomaly Log>";
+            this.guna2Button4.Click += new System.EventHandler(this.guna2Button4_Click);
             // 
             // label8
             // 
@@ -161,14 +181,14 @@ namespace ATMTuto
             this.label8.Size = new System.Drawing.Size(247, 41);
             this.label8.TabIndex = 21;
             this.label8.Text = "退出<Log out>";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("微软雅黑", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label2.Location = new System.Drawing.Point(412, 216);
+            this.label2.Location = new System.Drawing.Point(472, 214);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(363, 62);
             this.label2.TabIndex = 22;
@@ -181,6 +201,7 @@ namespace ATMTuto
             this.ClientSize = new System.Drawing.Size(1280, 800);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.guna2Button4);
             this.Controls.Add(this.guna2Button3);
             this.Controls.Add(this.guna2Button2);
             this.Controls.Add(this.guna2Panel2);
@@ -207,6 +228,7 @@ namespace ATMTuto
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private Guna.UI2.WinForms.Guna2Button guna2Button2;
         private Guna.UI2.WinForms.Guna2Button guna2Button3;
+        private Guna.UI2.WinForms.Guna2Button guna2Button4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label2;
     }

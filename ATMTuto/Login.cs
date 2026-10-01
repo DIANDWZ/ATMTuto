@@ -21,7 +21,7 @@ namespace ATMTuto
 AttachDbFilename=C:\Users\24097\OneDrive\Documents\ATMDb.mdf;
 Integrated Security=True;Connect Timeout=30");
 
-        private void label8_Click(object sender, EventArgs e)
+        private void Label8_Click(object sender, EventArgs e)
         {
             Account acc = new Account();
             FormTransitionHelper.SwitchForm(this, acc);
@@ -31,15 +31,33 @@ Integrated Security=True;Connect Timeout=30");
 
         private void LoginBtn_Click(object sender, EventArgs e)
         {
-            Con.Open();
-            // 关键修正：PIN = '值' 需补全开头的单引号
-            SqlDataAdapter sda = new SqlDataAdapter("select count(*) from AccountTbl where AccNum = '" + AccNumTb.Text + "' and PIN = '" + PinTb.Text + "'", Con); DataTable dt = new DataTable();
-            sda.Fill(dt);
-            if (dt.Rows[0][0].ToString() == "1")
+            if (string.IsNullOrEmpty(AccNumTb.Text) || string.IsNullOrEmpty(PinTb.Text))
             {
-                AccNumber = AccNumTb.Text;
-                HOME hOME = new HOME();
-                FormTransitionHelper.SwitchForm(this, hOME);
+                MessageBox.Show("请输入账号和密码！");
+                return;
+            }
+
+            Con.Open();
+            string query = "select PIN from AccountTbl where AccNum = @AccNum";
+            SqlCommand cmd = new SqlCommand(query, Con);
+            cmd.Parameters.AddWithValue("@AccNum", AccNumTb.Text);
+            object result = cmd.ExecuteScalar();
+
+            if (result != null)
+            {
+                string storedEncryptedPin = result.ToString();
+                string inputEncryptedPin = AESHelper.Encrypt(PinTb.Text);
+
+                if (storedEncryptedPin == inputEncryptedPin)
+                {
+                    AccNumber = AccNumTb.Text;
+                    HOME hOME = new HOME();
+                    FormTransitionHelper.SwitchForm(this, hOME);
+                }
+                else
+                {
+                    MessageBox.Show("您输入用户名或密码错误，请重新输入！");
+                }
             }
             else
             {

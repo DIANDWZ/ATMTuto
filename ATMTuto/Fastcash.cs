@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -33,7 +33,7 @@ Integrated Security=True;Connect Timeout=30");
                 SqlCommand cmd = new SqlCommand(query, Con);
                 cmd.Parameters.AddWithValue("@Acc", Acc);
                 cmd.Parameters.AddWithValue("@TrType", TrType);
-                cmd.Parameters.AddWithValue("@Amt", amount);
+                cmd.Parameters.AddWithValue("@Amt", AESHelper.EncryptAmount(amount));
                 cmd.Parameters.AddWithValue("@DateTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 cmd.ExecuteNonQuery();
                 Con.Close();
@@ -46,19 +46,22 @@ Integrated Security=True;Connect Timeout=30");
         private void getBalance()
         {
             Con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter("select Balance, DailyWithdrawLimit, SingleWithdrawLimit from AccountTbl where AccNum = '" + Acc + "'", Con);
+            string query = "select Balance, DailyWithdrawLimit, SingleWithdrawLimit from AccountTbl where AccNum = @Acc";
+            SqlDataAdapter sda = new SqlDataAdapter(query, Con);
+            sda.SelectCommand.Parameters.AddWithValue("@Acc", Acc);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             if (dt.Rows.Count > 0)
             {
-                balancelbl.Text = "￥" + dt.Rows[0][0].ToString();
-                bal = Convert.ToInt32(dt.Rows[0][0].ToString());
+                bal = AESHelper.DecryptAmount(dt.Rows[0][0].ToString());
+                balancelbl.Text = "￥" + bal;
                 dailyWithdrawLimit = dt.Rows[0][1] != DBNull.Value ? Convert.ToInt32(dt.Rows[0][1].ToString()) : 20000;
                 singleWithdrawLimit = dt.Rows[0][2] != DBNull.Value ? Convert.ToInt32(dt.Rows[0][2].ToString()) : 10000;
             }
             else
             {
                 bal = 0;
+                balancelbl.Text = "￥0";
                 dailyWithdrawLimit = 20000;
                 singleWithdrawLimit = 10000;
             }
@@ -68,23 +71,19 @@ Integrated Security=True;Connect Timeout=30");
         {
             int dailyAmount = 0;
             Con.Open();
-            string query = "select sum(Amount) from TransactionTbl where AccNum = @Acc and (Type = '取款' or Type = '转账') and convert(date, TDate) = convert(date, getdate())";
+            string query = "select Amount from TransactionTbl where AccNum = @Acc and (Type = '取款' or Type = '转账') and convert(date, TDate) = convert(date, getdate())";
             SqlCommand cmd = new SqlCommand(query, Con);
             cmd.Parameters.AddWithValue("@Acc", Acc);
-            object result = cmd.ExecuteScalar();
-            if (result != DBNull.Value && result != null)
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                dailyAmount = Convert.ToInt32(result);
+                string encryptedAmount = reader["Amount"].ToString();
+                dailyAmount += AESHelper.DecryptAmount(encryptedAmount);
             }
+            reader.Close();
             Con.Close();
             return dailyAmount;
         }
-        private int getRemainingDailyLimit()
-        {
-            int dailyWithdrawAmount = getDailyWithdrawAmount();
-            return dailyWithdrawLimit - dailyWithdrawAmount;
-        }
-
         private bool checkLimits(int amount)
         {
             if (singleWithdrawLimit > 0 && amount > singleWithdrawLimit)
@@ -94,18 +93,42 @@ Integrated Security=True;Connect Timeout=30");
             }
             int dailyWithdrawAmount = getDailyWithdrawAmount();
             int totalWithdraw = dailyWithdrawAmount + amount;
-            int remainingDailyLimit = dailyWithdrawLimit - dailyWithdrawAmount;
             if (dailyWithdrawLimit > 0 && totalWithdraw > dailyWithdrawLimit)
             {
-                MessageBox.Show("超过每日限额（取款+转账）\n每日限额：￥" + dailyWithdrawLimit + "\n今日已取款/转账：￥" + dailyWithdrawAmount + "\n每日剩余额度：￥" + remainingDailyLimit);
+                MessageBox.Show("超过每日限额（取款+转账）限额￥" + dailyWithdrawLimit + "\n今日已取款/转账：￥" + dailyWithdrawAmount);
                 return false;
             }
+
+            var anomalyResult = AnomalyDetection.DetectTransactionAnomaly(Acc, "取款", amount, DateTime.Now);
+            AnomalyDetection.LogAnomaly(Acc, "取款", amount, anomalyResult);
+            
+            if (anomalyResult.Level != AnomalyDetection.AnomalyLevel.Normal)
+            {
+                MessageBoxIcon icon = anomalyResult.Level >= AnomalyDetection.AnomalyLevel.Suspicious ? 
+                    MessageBoxIcon.Exclamation : MessageBoxIcon.Warning;
+                
+                DialogResult confirmResult = MessageBox.Show(
+                    $"【异常交易检测】\n\n检测级别: {anomalyResult.Level}\n\n{anomalyResult.Message}\n\n" +
+                    "是否确认继续此快速取款操作？",
+                    "异常交易提醒",
+                    MessageBoxButtons.YesNo,
+                    icon);
+                if (confirmResult == DialogResult.No)
+                {
+                    return false;
+                }
+            }
+
             return true;
         }
 
         private void Fastcash_Load(object sender, EventArgs e)
         {
             getBalance();
+            int dailyWithdrawAmount = getDailyWithdrawAmount();
+            int remainingDailyLimit = Math.Max(0, dailyWithdrawLimit - dailyWithdrawAmount);
+            DailyLimitLbl.Text = "今日剩余取款限额：￥" + remainingDailyLimit;
+            SingleLimitLbl.Text = "单次取款限额：￥" + singleWithdrawLimit;
         }
 
         private void label21_Click_1(object sender, EventArgs e)
@@ -114,12 +137,12 @@ Integrated Security=True;Connect Timeout=30");
             FormTransitionHelper.SwitchForm(this, home);
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void Guna2Button1_Click(object sender, EventArgs e)
         {
             int amount = 100;
             if (bal < amount)
             {
-                MessageBox.Show("余额不足，当前余额：￥" + bal);
+                MessageBox.Show("余额不足");
             }
             else if (!checkLimits(amount))
             {
@@ -127,36 +150,24 @@ Integrated Security=True;Connect Timeout=30");
             }
             else
             {
-                int remainingDailyLimit = getRemainingDailyLimit();
-                DialogResult result = MessageBox.Show(
-                    "取款确认\n\n" +
-                    "账号：" + Acc + "\n" +
-                    "取款金额：￥" + amount + "\n" +
-                    "当前余额：￥" + bal + "\n" +
-                    "每日取款剩余额度：￥" + remainingDailyLimit + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "取款确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                int newBalance = bal - amount;
+                try
                 {
-                    int newBalance = bal - amount;
-                    try
-                    {
-                        Con.Open();
-                        string query = "update AccountTbl set Balance = " + newBalance + " where AccNum = '" + Acc + "'";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("取款交易成功！\n取款金额：￥" + amount + "\n剩余额度：￥" + (remainingDailyLimit - amount) + "\n余额：￥" + newBalance);
-                        Con.Close();
-                        addtransaction(amount);
-                        HOME home = new HOME();
-                        FormTransitionHelper.SwitchForm(this, home);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Con.Open();
+                    string query = "update AccountTbl set Balance = @newBalance where AccNum = @Acc";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.Parameters.AddWithValue("@newBalance", AESHelper.EncryptAmount(newBalance));
+                    cmd.Parameters.AddWithValue("@Acc", Acc);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("取款交易成功！");
+                    Con.Close();
+                    addtransaction(amount);
+                    HOME home = new HOME();
+                    FormTransitionHelper.SwitchForm(this, home);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -166,7 +177,7 @@ Integrated Security=True;Connect Timeout=30");
             int amount = 500;
             if (bal < amount)
             {
-                MessageBox.Show("余额不足，当前余额：￥" + bal);
+                MessageBox.Show("余额不足");
             }
             else if (!checkLimits(amount))
             {
@@ -174,36 +185,24 @@ Integrated Security=True;Connect Timeout=30");
             }
             else
             {
-                int remainingDailyLimit = getRemainingDailyLimit();
-                DialogResult result = MessageBox.Show(
-                    "取款确认\n\n" +
-                    "账号：" + Acc + "\n" +
-                    "取款金额：￥" + amount + "\n" +
-                    "当前余额：￥" + bal + "\n" +
-                    "每日取款剩余额度：￥" + remainingDailyLimit + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "取款确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                int newBalance = bal - amount;
+                try
                 {
-                    int newBalance = bal - amount;
-                    try
-                    {
-                        Con.Open();
-                        string query = "update AccountTbl set Balance = " + newBalance + " where AccNum = '" + Acc + "'";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("取款交易成功！\n取款金额：￥" + amount + "\n剩余额度：￥" + (remainingDailyLimit - amount) + "\n余额：￥" + newBalance);
-                        Con.Close();
-                        addtransaction(amount);
-                        HOME home = new HOME();
-                        FormTransitionHelper.SwitchForm(this, home);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Con.Open();
+                    string query = "update AccountTbl set Balance = @newBalance where AccNum = @Acc";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.Parameters.AddWithValue("@newBalance", AESHelper.EncryptAmount(newBalance));
+                    cmd.Parameters.AddWithValue("@Acc", Acc);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("取款交易成功！");
+                    Con.Close();
+                    addtransaction(amount);
+                    HOME home = new HOME();
+                    FormTransitionHelper.SwitchForm(this, home);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -213,7 +212,7 @@ Integrated Security=True;Connect Timeout=30");
             int amount = 1000;
             if (bal < amount)
             {
-                MessageBox.Show("余额不足，当前余额：￥" + bal);
+                MessageBox.Show("余额不足");
             }
             else if (!checkLimits(amount))
             {
@@ -221,36 +220,24 @@ Integrated Security=True;Connect Timeout=30");
             }
             else
             {
-                int remainingDailyLimit = getRemainingDailyLimit();
-                DialogResult result = MessageBox.Show(
-                    "取款确认\n\n" +
-                    "账号：" + Acc + "\n" +
-                    "取款金额：￥" + amount + "\n" +
-                    "当前余额：￥" + bal + "\n" +
-                    "每日取款剩余额度：￥" + remainingDailyLimit + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "取款确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                int newBalance = bal - amount;
+                try
                 {
-                    int newBalance = bal - amount;
-                    try
-                    {
-                        Con.Open();
-                        string query = "update AccountTbl set Balance = " + newBalance + " where AccNum = '" + Acc + "'";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("取款交易成功！\n取款金额：￥" + amount + "\n剩余额度：￥" + (remainingDailyLimit - amount) + "\n余额：￥" + newBalance);
-                        Con.Close();
-                        addtransaction(amount);
-                        HOME home = new HOME();
-                        FormTransitionHelper.SwitchForm(this, home);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Con.Open();
+                    string query = "update AccountTbl set Balance = @newBalance where AccNum = @Acc";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.Parameters.AddWithValue("@newBalance", AESHelper.EncryptAmount(newBalance));
+                    cmd.Parameters.AddWithValue("@Acc", Acc);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("取款交易成功！");
+                    Con.Close();
+                    addtransaction(amount);
+                    HOME home = new HOME();
+                    FormTransitionHelper.SwitchForm(this, home);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -260,7 +247,7 @@ Integrated Security=True;Connect Timeout=30");
             int amount = 2000;
             if (bal < amount)
             {
-                MessageBox.Show("余额不足，当前余额：￥" + bal);
+                MessageBox.Show("余额不足");
             }
             else if (!checkLimits(amount))
             {
@@ -268,36 +255,24 @@ Integrated Security=True;Connect Timeout=30");
             }
             else
             {
-                int remainingDailyLimit = getRemainingDailyLimit();
-                DialogResult result = MessageBox.Show(
-                    "取款确认\n\n" +
-                    "账号：" + Acc + "\n" +
-                    "取款金额：￥" + amount + "\n" +
-                    "当前余额：￥" + bal + "\n" +
-                    "每日取款剩余额度：￥" + remainingDailyLimit + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "取款确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                int newBalance = bal - amount;
+                try
                 {
-                    int newBalance = bal - amount;
-                    try
-                    {
-                        Con.Open();
-                        string query = "update AccountTbl set Balance = " + newBalance + " where AccNum = '" + Acc + "'";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("取款交易成功！\n取款金额：￥" + amount + "\n剩余额度：￥" + (remainingDailyLimit - amount) + "\n余额：￥" + newBalance);
-                        Con.Close();
-                        addtransaction(amount);
-                        HOME home = new HOME();
-                        FormTransitionHelper.SwitchForm(this, home);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Con.Open();
+                    string query = "update AccountTbl set Balance = @newBalance where AccNum = @Acc";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.Parameters.AddWithValue("@newBalance", AESHelper.EncryptAmount(newBalance));
+                    cmd.Parameters.AddWithValue("@Acc", Acc);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("取款交易成功！");
+                    Con.Close();
+                    addtransaction(amount);
+                    HOME home = new HOME();
+                    FormTransitionHelper.SwitchForm(this, home);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -307,7 +282,7 @@ Integrated Security=True;Connect Timeout=30");
             int amount = 5000;
             if (bal < amount)
             {
-                MessageBox.Show("余额不足，当前余额：￥" + bal);
+                MessageBox.Show("余额不足");
             }
             else if (!checkLimits(amount))
             {
@@ -315,36 +290,24 @@ Integrated Security=True;Connect Timeout=30");
             }
             else
             {
-                int remainingDailyLimit = getRemainingDailyLimit();
-                DialogResult result = MessageBox.Show(
-                    "取款确认\n\n" +
-                    "账号：" + Acc + "\n" +
-                    "取款金额：￥" + amount + "\n" +
-                    "当前余额：￥" + bal + "\n" +
-                    "每日取款剩余额度：￥" + remainingDailyLimit + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "取款确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                int newBalance = bal - amount;
+                try
                 {
-                    int newBalance = bal - amount;
-                    try
-                    {
-                        Con.Open();
-                        string query = "update AccountTbl set Balance = " + newBalance + " where AccNum = '" + Acc + "'";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("取款交易成功！\n取款金额：￥" + amount + "\n剩余额度：￥" + (remainingDailyLimit - amount) + "\n余额：￥" + newBalance);
-                        Con.Close();
-                        addtransaction(amount);
-                        HOME home = new HOME();
-                        FormTransitionHelper.SwitchForm(this, home);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Con.Open();
+                    string query = "update AccountTbl set Balance = @newBalance where AccNum = @Acc";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.Parameters.AddWithValue("@newBalance", AESHelper.EncryptAmount(newBalance));
+                    cmd.Parameters.AddWithValue("@Acc", Acc);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("取款交易成功！");
+                    Con.Close();
+                    addtransaction(amount);
+                    HOME home = new HOME();
+                    FormTransitionHelper.SwitchForm(this, home);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
@@ -354,7 +317,7 @@ Integrated Security=True;Connect Timeout=30");
             int amount = 10000;
             if (bal < amount)
             {
-                MessageBox.Show("余额不足，当前余额：￥" + bal);
+                MessageBox.Show("余额不足");
             }
             else if (!checkLimits(amount))
             {
@@ -362,36 +325,24 @@ Integrated Security=True;Connect Timeout=30");
             }
             else
             {
-                int remainingDailyLimit = getRemainingDailyLimit();
-                DialogResult result = MessageBox.Show(
-                    "取款确认\n\n" +
-                    "账号：" + Acc + "\n" +
-                    "取款金额：￥" + amount + "\n" +
-                    "当前余额：￥" + bal + "\n" +
-                    "每日取款剩余额度：￥" + remainingDailyLimit + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "取款确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
+                int newBalance = bal - amount;
+                try
                 {
-                    int newBalance = bal - amount;
-                    try
-                    {
-                        Con.Open();
-                        string query = "update AccountTbl set Balance = " + newBalance + " where AccNum = '" + Acc + "'";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("取款交易成功！\n取款金额：￥" + amount + "\n剩余额度：￥" + (remainingDailyLimit - amount) + "\n余额：￥" + newBalance);
-                        Con.Close();
-                        addtransaction(amount);
-                        HOME home = new HOME();
-                        FormTransitionHelper.SwitchForm(this, home);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    Con.Open();
+                    string query = "update AccountTbl set Balance = @newBalance where AccNum = @Acc";
+                    SqlCommand cmd = new SqlCommand(query, Con);
+                    cmd.Parameters.AddWithValue("@newBalance", AESHelper.EncryptAmount(newBalance));
+                    cmd.Parameters.AddWithValue("@Acc", Acc);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("取款交易成功！");
+                    Con.Close();
+                    addtransaction(amount);
+                    HOME home = new HOME();
+                    FormTransitionHelper.SwitchForm(this, home);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
         }

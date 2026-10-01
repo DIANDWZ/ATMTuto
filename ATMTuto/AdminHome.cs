@@ -17,7 +17,7 @@ namespace ATMTuto
             InitializeComponent();
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void Label8_Click(object sender, EventArgs e)
         {
             AdminLogin log = new AdminLogin();
             FormTransitionHelper.SwitchForm(this, log);
@@ -39,6 +39,12 @@ namespace ATMTuto
         {
             TransactionHistory transactionHistory = new TransactionHistory();
             FormTransitionHelper.SwitchForm(this, transactionHistory);
+        }
+
+        private void guna2Button4_Click(object sender, EventArgs e)
+        {
+            AnomalyLogViewer anomalyLogViewer = new AnomalyLogViewer();
+            FormTransitionHelper.SwitchForm(this, anomalyLogViewer);
         }
     }
 }

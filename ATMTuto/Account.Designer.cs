@@ -383,10 +383,11 @@ namespace ATMTuto
             this.PinTb.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.PinTb.Location = new System.Drawing.Point(896, 220);
             this.PinTb.Name = "PinTb";
+            this.PinTb.PasswordChar = '*';
             this.PinTb.Size = new System.Drawing.Size(386, 62);
             this.PinTb.TabIndex = 33;
-            this.PinTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PinTb_KeyPress);
             this.PinTb.TextChanged += new System.EventHandler(this.PinTb_TextChanged);
+            this.PinTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PinTb_KeyPress);
             // 
             // OccupationTb
             // 

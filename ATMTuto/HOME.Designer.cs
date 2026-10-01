@@ -106,7 +106,7 @@ namespace ATMTuto
             this.guna2Button1.Size = new System.Drawing.Size(272, 93);
             this.guna2Button1.TabIndex = 14;
             this.guna2Button1.Text = "存款<Deposit>";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.guna2Button1.Click += new System.EventHandler(this.Guna2Button1_Click);
             //
             // guna2Panel2
             //
@@ -222,7 +222,7 @@ namespace ATMTuto
             this.label8.Size = new System.Drawing.Size(247, 41);
             this.label8.TabIndex = 21;
             this.label8.Text = "退出<Log out>";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             //
             // AccNumLbl
             //

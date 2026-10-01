@@ -16,25 +16,57 @@ namespace ATMTuto
         public LimitManagement()
         {
             InitializeComponent();
-            populate();
+            Populate();
         }
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+
+        private const string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 AttachDbFilename=C:\Users\24097\OneDrive\Documents\ATMDb.mdf;
-Integrated Security=True;Connect Timeout=30");
+Integrated Security=True;Connect Timeout=30";
 
-        private void populate()
+        private void Populate()
         {
-            Con.Open();
-            string query = "select AccNum, Name, DailyWithdrawLimit, DailyDepositLimit, SingleWithdrawLimit, SingleDepositLimit from AccountTbl";
-            SqlDataAdapter sda = new SqlDataAdapter(query, Con);
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-            var ds = new DataSet();
-            sda.Fill(ds);
-            limitDGV.DataSource = ds.Tables[0];
-            Con.Close();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionString))
+                {
+                    con.Open();
+                    string query = "select * from AccountTbl";
+                    SqlDataAdapter sda = new SqlDataAdapter(query, con);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+                    
+                    DataTable filteredDt = new DataTable();
+                    filteredDt.Columns.Add("账号", typeof(string));
+                    filteredDt.Columns.Add("姓", typeof(string));
+                    filteredDt.Columns.Add("名", typeof(string));
+                    filteredDt.Columns.Add("单日取款限额", typeof(decimal));
+                    filteredDt.Columns.Add("单日存款限额", typeof(decimal));
+                    filteredDt.Columns.Add("单次取款限额", typeof(decimal));
+                    filteredDt.Columns.Add("单次存款限额", typeof(decimal));
+                    
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        filteredDt.Rows.Add(
+                            row[0],
+                            row[2],
+                            row[1],
+                            row[10],
+                            row[11],
+                            row[12],
+                            row[13]
+                        );
+                    }
+                    
+                    limitDGV.DataSource = filteredDt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"加载限额数据时出错: {ex.Message}");
+            }
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void Guna2Button1_Click(object sender, EventArgs e)
         {
             if (AccNumTb.Text == "")
             {
@@ -44,18 +76,20 @@ Integrated Security=True;Connect Timeout=30");
             {
                 try
                 {
-                    Con.Open();
-                    string query = "update AccountTbl set DailyWithdrawLimit=@DailyWithdrawLimit, DailyDepositLimit=@DailyDepositLimit, SingleWithdrawLimit=@SingleWithdrawLimit, SingleDepositLimit=@SingleDepositLimit where AccNum=@AccNum";
-                    SqlCommand cmd = new SqlCommand(query, Con);
-                    cmd.Parameters.AddWithValue("@AccNum", AccNumTb.Text);
-                    cmd.Parameters.AddWithValue("@DailyWithdrawLimit", int.Parse(DailyWithdrawTb.Text));
-                    cmd.Parameters.AddWithValue("@DailyDepositLimit", int.Parse(DailyDepositTb.Text));
-                    cmd.Parameters.AddWithValue("@SingleWithdrawLimit", int.Parse(SingleWithdrawTb.Text));
-                    cmd.Parameters.AddWithValue("@SingleDepositLimit", int.Parse(SingleDepositTb.Text));
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("限额更新成功！");
-                    Con.Close();
-                    populate();
+                    using (SqlConnection con = new SqlConnection(ConnectionString))
+                    {
+                        con.Open();
+                        string query = "update AccountTbl set DailyWithdrawLimit=@DailyWithdrawLimit, DailyDepositLimit=@DailyDepositLimit, SingleWithdrawLimit=@SingleWithdrawLimit, SingleDepositLimit=@SingleDepositLimit where AccNum=@AccNum";
+                        SqlCommand cmd = new SqlCommand(query, con);
+                        cmd.Parameters.AddWithValue("@AccNum", AccNumTb.Text);
+                        cmd.Parameters.AddWithValue("@DailyWithdrawLimit", int.Parse(DailyWithdrawTb.Text));
+                        cmd.Parameters.AddWithValue("@DailyDepositLimit", int.Parse(DailyDepositTb.Text));
+                        cmd.Parameters.AddWithValue("@SingleWithdrawLimit", int.Parse(SingleWithdrawTb.Text));
+                        cmd.Parameters.AddWithValue("@SingleDepositLimit", int.Parse(SingleDepositTb.Text));
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("限额更新成功！");
+                    }
+                    Populate();
                 }
                 catch (Exception ex)
                 {
@@ -64,21 +98,23 @@ Integrated Security=True;Connect Timeout=30");
             }
         }
 
-        private void limitDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void LimitDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = limitDGV.Rows[e.RowIndex];
                 AccNumTb.Text = row.Cells[0].Value.ToString();
-                AccNameTb.Text = row.Cells[1].Value.ToString();
-                DailyWithdrawTb.Text = row.Cells[2].Value.ToString();
-                DailyDepositTb.Text = row.Cells[3].Value.ToString();
-                SingleWithdrawTb.Text = row.Cells[4].Value.ToString();
-                SingleDepositTb.Text = row.Cells[5].Value.ToString();
+                string firstName = row.Cells[1].Value.ToString();
+                string lastName = row.Cells[2].Value.ToString();
+                AccNameTb.Text = firstName + " " + lastName;
+                DailyWithdrawTb.Text = row.Cells[3].Value.ToString();
+                DailyDepositTb.Text = row.Cells[4].Value.ToString();
+                SingleWithdrawTb.Text = row.Cells[5].Value.ToString();
+                SingleDepositTb.Text = row.Cells[6].Value.ToString();
             }
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void Label8_Click(object sender, EventArgs e)
         {
             AdminHome adminHome = new AdminHome();
             FormTransitionHelper.SwitchForm(this, adminHome);

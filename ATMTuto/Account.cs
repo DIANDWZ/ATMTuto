@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace ATMTuto
 {
@@ -24,53 +23,44 @@ Integrated Security=True;Connect Timeout=30");
 
         private void SubmitBtn_Click(object sender, EventArgs e)
         {
-            int bal = 0;
-            if (AccNameTb.Text == "" || AccNumTb.Text == "" || LaNameTb.Text == "" || PhoneTb.Text == "" || AddressTb.Text == "" || OccupationTb.Text == "" || PinTb.Text == "")
+            if (string.IsNullOrEmpty(AccNumTb.Text) || string.IsNullOrEmpty(AccNameTb.Text) || 
+                string.IsNullOrEmpty(LaNameTb.Text) || string.IsNullOrEmpty(PhoneTb.Text) || 
+                string.IsNullOrEmpty(AddressTb.Text) || string.IsNullOrEmpty(OccupationTb.Text) || 
+                string.IsNullOrEmpty(PinTb.Text) || EducationCb.SelectedItem == null)
             {
-                MessageBox.Show("信息缺失！");
+                MessageBox.Show("请填写完整信息");
+                return;
             }
-            else
+
+            Con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("select count(*) from AccountTbl where AccNum = @AccNum", Con);
+            sda.SelectCommand.Parameters.AddWithValue("@AccNum", AccNumTb.Text);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            if (dt.Rows[0][0].ToString() == "1")
             {
-                DialogResult result = MessageBox.Show(
-                    "开户确认\n\n" +
-                    "账号：" + AccNumTb.Text + "\n" +
-                    "户名：" + AccNameTb.Text + " " + LaNameTb.Text + "\n" +
-                    "手机号：" + PhoneTb.Text + "\n" +
-                    "职业：" + OccupationTb.Text + "\n" +
-                    "PIN码：" + PinTb.Text + "\n\n" +
-                    "请确认以上信息是否正确？",
-                    "开户确认",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    try
-                    {
-                        Con.Open();
-                        string query = @"insert into AccountTbl values(@AccNum, @AccName, @LaName, @Dob, @Phone, @Address, @Education, @Occupation, @Pin, @bal)";
-                        SqlCommand cmd = new SqlCommand(query, Con);
-                        cmd.Parameters.AddWithValue("@AccNum", AccNumTb.Text);
-                        cmd.Parameters.AddWithValue("@AccName", AccNameTb.Text);
-                        cmd.Parameters.AddWithValue("@LaName", LaNameTb.Text);
-                        cmd.Parameters.AddWithValue("@Dob", DobDate.Value.Date);
-                        cmd.Parameters.AddWithValue("@Phone", PhoneTb.Text);
-                        cmd.Parameters.AddWithValue("@Address", AddressTb.Text);
-                        cmd.Parameters.AddWithValue("@Education", EducationCb.SelectedItem.ToString());
-                        cmd.Parameters.AddWithValue("@Occupation", OccupationTb.Text);
-                        cmd.Parameters.AddWithValue("@Pin", PinTb.Text);
-                        cmd.Parameters.AddWithValue("@bal", bal);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("账户注册成功！！！");
-                        Con.Close();
-                        Login log = new Login();
-                        FormTransitionHelper.SwitchForm(this, log);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                }
+                MessageBox.Show("账号已存在");
+                Con.Close();
+                return;
             }
+
+            string query = "insert into AccountTbl values(@AccNum, @AccName, @LaName, @Dob, @Phone, @Address, @Education, @Occupation, @PIN, @Balance, 50000, 10000, 20000, 10000)";
+            SqlCommand cmd = new SqlCommand(query, Con);
+            cmd.Parameters.AddWithValue("@AccNum", AccNumTb.Text);
+            cmd.Parameters.AddWithValue("@AccName", AccNameTb.Text);
+            cmd.Parameters.AddWithValue("@LaName", LaNameTb.Text);
+            cmd.Parameters.AddWithValue("@Dob", DobDate.Value.Date);
+            cmd.Parameters.AddWithValue("@Phone", AESHelper.MaskPhone(PhoneTb.Text));
+            cmd.Parameters.AddWithValue("@Address", AddressTb.Text);
+            cmd.Parameters.AddWithValue("@Education", EducationCb.SelectedItem.ToString());
+            cmd.Parameters.AddWithValue("@Occupation", OccupationTb.Text);
+            cmd.Parameters.AddWithValue("@PIN", AESHelper.Encrypt(PinTb.Text));
+            cmd.Parameters.AddWithValue("@Balance", AESHelper.EncryptAmount(0));
+            cmd.ExecuteNonQuery();
+            Con.Close();
+            MessageBox.Show("注册成功");
+            Login login = new Login();
+            FormTransitionHelper.SwitchForm(this, login);
         }
 
         private void LogoutLbl_Click(object sender, EventArgs e)

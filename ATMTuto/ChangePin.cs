@@ -18,13 +18,13 @@ namespace ATMTuto
             InitializeComponent();
         }
 
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;
+        private const string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;
 AttachDbFilename=C:\Users\24097\OneDrive\Documents\ATMDb.mdf;
-Integrated Security=True;Connect Timeout=30");
+Integrated Security=True;Connect Timeout=30";
 
         string Acc = Login.AccNumber;
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void Guna2Button1_Click(object sender, EventArgs e)
         {
             if (textBox1.Text == "" || Pin1Tb.Text == "" || Pin2Tb.Text == "")
             {
@@ -48,36 +48,50 @@ Integrated Security=True;Connect Timeout=30");
                 {
                     try
                     {
-                        Con.Open();
-                        SqlDataAdapter sda = new SqlDataAdapter("select count(*) from AccountTbl where AccNum = '" + Acc + "' and PIN = '" + textBox1.Text + "'", Con);
-                        DataTable dt = new DataTable();
-                        sda.Fill(dt);
-                        if (dt.Rows[0][0].ToString() == "1")
+                        using (SqlConnection con = new SqlConnection(ConnectionString))
                         {
-                            string query = "update AccountTbl set PIN = '" + Pin1Tb.Text + "' where AccNum = '" + Acc + "'";
-                            SqlCommand cmd = new SqlCommand(query, Con);
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show("密码修改成功！");
-                            Con.Close();
-                            Login log = new Login();
-                            FormTransitionHelper.SwitchForm(this, log);
-                        }
-                        else
-                        {
-                            MessageBox.Show("旧密码输入错误，请重新输入！");
-                            Con.Close();
+                            con.Open();
+                            string query = "select PIN from AccountTbl where AccNum = @AccNum";
+                            SqlCommand cmd = new SqlCommand(query, con);
+                            cmd.Parameters.AddWithValue("@AccNum", Acc);
+                            object result_pin = cmd.ExecuteScalar();
+
+                            if (result_pin != null)
+                            {
+                                string storedEncryptedPin = result_pin.ToString();
+                                string inputEncryptedPin = AESHelper.Encrypt(textBox1.Text);
+
+                                if (storedEncryptedPin == inputEncryptedPin)
+                                {
+                                    string updateQuery = "update AccountTbl set PIN = @NewPin where AccNum = @AccNum";
+                                    SqlCommand updateCmd = new SqlCommand(updateQuery, con);
+                                    updateCmd.Parameters.AddWithValue("@NewPin", AESHelper.Encrypt(Pin1Tb.Text));
+                                    updateCmd.Parameters.AddWithValue("@AccNum", Acc);
+                                    updateCmd.ExecuteNonQuery();
+                                    MessageBox.Show("密码修改成功！");
+                                    Login log = new Login();
+                                    FormTransitionHelper.SwitchForm(this, log);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("旧密码输入错误，请重新输入！");
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("旧密码输入错误，请重新输入！");
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
-                        Con.Close();
                     }
                 }
             }
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void Label8_Click(object sender, EventArgs e)
         {
             HOME home = new HOME();
             FormTransitionHelper.SwitchForm(this, home);
@@ -85,7 +99,6 @@ Integrated Security=True;Connect Timeout=30");
 
         private void Pin1Tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // 只允许输入自然数和英文字母大小写
             if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
@@ -94,7 +107,6 @@ Integrated Security=True;Connect Timeout=30");
 
         private void Pin2Tb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // 只允许输入自然数和英文字母大小写
             if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
@@ -103,7 +115,6 @@ Integrated Security=True;Connect Timeout=30");
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // 只允许输入自然数和英文字母大小写
             if (!char.IsLetterOrDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
@@ -112,7 +123,6 @@ Integrated Security=True;Connect Timeout=30");
 
         private void Pin1Tb_TextChanged(object sender, EventArgs e)
         {
-            // 限制PIN长度为6位
             if (Pin1Tb.Text.Length > 6)
             {
                 Pin1Tb.Text = Pin1Tb.Text.Substring(0, 6);
@@ -123,7 +133,6 @@ Integrated Security=True;Connect Timeout=30");
 
         private void Pin2Tb_TextChanged(object sender, EventArgs e)
         {
-            // 限制PIN长度为6位
             if (Pin2Tb.Text.Length > 6)
             {
                 Pin2Tb.Text = Pin2Tb.Text.Substring(0, 6);
@@ -134,7 +143,6 @@ Integrated Security=True;Connect Timeout=30");
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            // 限制PIN长度为6位
             if (textBox1.Text.Length > 6)
             {
                 textBox1.Text = textBox1.Text.Substring(0, 6);

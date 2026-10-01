@@ -83,6 +83,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormTransitionHelper.cs" />
+    <Compile Include="AESHelper.cs" />
+    <Compile Include="AnomalyDetection.cs" />
+    <Compile Include="AnomalyDetectionHelper.cs" />
     <Compile Include="Fastcash.Designer.cs">
       <DependentUpon>Fastcash.cs</DependentUpon>
     </Compile>
@@ -154,8 +157,17 @@
     <Compile Include="TransactionHistory.Designer.cs">
       <DependentUpon>TransactionHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="AnomalyLogViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AnomalyLogViewer.Designer.cs">
+      <DependentUpon>AnomalyLogViewer.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Account.resx">
       <DependentUpon>Account.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AnomalyLogViewer.resx">
+      <DependentUpon>AnomalyLogViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Balance.resx">
       <DependentUpon>Balance.cs</DependentUpon>

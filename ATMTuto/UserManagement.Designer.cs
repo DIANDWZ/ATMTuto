@@ -67,7 +67,7 @@ namespace ATMTuto
             this.label21.Size = new System.Drawing.Size(201, 41);
             this.label21.TabIndex = 42;
             this.label21.Text = "返回<Back>";
-            this.label21.Click += new System.EventHandler(this.label8_Click);
+            this.label21.Click += new System.EventHandler(this.Label8_Click);
             // 
             // guna2Panel2
             // 
@@ -196,7 +196,7 @@ namespace ATMTuto
             this.userDGV.ThemeStyle.RowsStyle.Height = 30;
             this.userDGV.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.userDGV.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            this.userDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.userDGV_CellContentClick);
+            this.userDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.UserDGV_CellContentClick);
             // 
             // AccNumTb
             // 
@@ -332,7 +332,7 @@ namespace ATMTuto
             this.guna2Button1.Size = new System.Drawing.Size(120, 40);
             this.guna2Button1.TabIndex = 58;
             this.guna2Button1.Text = "更新";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.guna2Button1.Click += new System.EventHandler(this.Guna2Button1_Click);
             // 
             // UserManagement
             // 

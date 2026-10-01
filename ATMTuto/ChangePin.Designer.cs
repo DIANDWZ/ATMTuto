@@ -145,7 +145,7 @@ namespace ATMTuto
             this.label8.Size = new System.Drawing.Size(201, 41);
             this.label8.TabIndex = 20;
             this.label8.Text = "返回<Back>";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // guna2Button1
             // 
@@ -165,7 +165,7 @@ namespace ATMTuto
             this.guna2Button1.Size = new System.Drawing.Size(260, 67);
             this.guna2Button1.TabIndex = 19;
             this.guna2Button1.Text = "提交<Submit>";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.guna2Button1.Click += new System.EventHandler(this.Guna2Button1_Click);
             // 
             // Pin2Tb
             // 

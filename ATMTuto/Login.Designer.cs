@@ -1,4 +1,4 @@
-﻿﻿﻿namespace ATMTuto
+﻿﻿﻿﻿﻿﻿namespace ATMTuto
 {
     partial class Login
     {
@@ -220,7 +220,7 @@
             this.label8.Size = new System.Drawing.Size(246, 41);
             this.label8.TabIndex = 14;
             this.label8.Text = "注册<Sign up>";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            this.label8.Click += new System.EventHandler(this.Label8_Click);
             // 
             // guna2Panel2
             // 

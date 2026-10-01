@@ -1,4 +1,4 @@
-﻿namespace ATMTuto
+﻿﻿﻿﻿﻿namespace ATMTuto
 {
     partial class Inquiry
     {

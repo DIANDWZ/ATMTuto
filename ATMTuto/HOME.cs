@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,7 +17,7 @@ namespace ATMTuto
             InitializeComponent();
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void Label8_Click(object sender, EventArgs e)
         {
             Login log = new Login();
             FormTransitionHelper.SwitchForm(this, log);
@@ -37,7 +37,7 @@ namespace ATMTuto
             AccNumber = Login.AccNumber;
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void Guna2Button1_Click(object sender, EventArgs e)
         {
             Deposit depo = new Deposit();
             FormTransitionHelper.SwitchForm(this, depo);

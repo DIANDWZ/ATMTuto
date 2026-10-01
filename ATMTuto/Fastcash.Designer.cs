@@ -44,6 +44,8 @@
             this.label21 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.balancelbl = new System.Windows.Forms.Label();
+            this.DailyLimitLbl = new System.Windows.Forms.Label();
+            this.SingleLimitLbl = new System.Windows.Forms.Label();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -212,7 +214,7 @@
             this.guna2Button1.Size = new System.Drawing.Size(272, 93);
             this.guna2Button1.TabIndex = 28;
             this.guna2Button1.Text = "100￥";
-            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
+            this.guna2Button1.Click += new System.EventHandler(this.Guna2Button1_Click);
             // 
             // label3
             // 
@@ -270,11 +272,35 @@
             this.balancelbl.TabIndex = 41;
             this.balancelbl.Text = "Available Balance";
             // 
+            // DailyLimitLbl
+            // 
+            this.DailyLimitLbl.AutoSize = true;
+            this.DailyLimitLbl.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.DailyLimitLbl.ForeColor = System.Drawing.Color.DarkCyan;
+            this.DailyLimitLbl.Location = new System.Drawing.Point(12, 216);
+            this.DailyLimitLbl.Name = "DailyLimitLbl";
+            this.DailyLimitLbl.Size = new System.Drawing.Size(283, 36);
+            this.DailyLimitLbl.TabIndex = 42;
+            this.DailyLimitLbl.Text = "今日剩余取款限额：0";
+            // 
+            // SingleLimitLbl
+            // 
+            this.SingleLimitLbl.AutoSize = true;
+            this.SingleLimitLbl.Font = new System.Drawing.Font("微软雅黑", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.SingleLimitLbl.ForeColor = System.Drawing.Color.DarkCyan;
+            this.SingleLimitLbl.Location = new System.Drawing.Point(12, 256);
+            this.SingleLimitLbl.Name = "SingleLimitLbl";
+            this.SingleLimitLbl.Size = new System.Drawing.Size(227, 36);
+            this.SingleLimitLbl.TabIndex = 43;
+            this.SingleLimitLbl.Text = "单次取款限额：0";
+            // 
             // Fastcash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1280, 800);
+            this.Controls.Add(this.SingleLimitLbl);
+            this.Controls.Add(this.DailyLimitLbl);
             this.Controls.Add(this.balancelbl);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label21);
@@ -318,5 +344,7 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label balancelbl;
+        private System.Windows.Forms.Label DailyLimitLbl;
+        private System.Windows.Forms.Label SingleLimitLbl;
     }
 }
